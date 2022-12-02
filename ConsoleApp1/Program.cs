@@ -1,9 +1,10 @@
-﻿
+
 using System;
 
 namespace Kortlek
 {
-    class Program
+
+    public class Program
     {
         public int kortRND()
         {            
@@ -22,8 +23,8 @@ namespace Kortlek
         static void Main(string[] args)
         {
             Console.WriteLine("Kortlek v0");
-
             bool gameon = true;
+            bool vinnare = false;
             while (gameon == true)
             {
 
@@ -35,24 +36,26 @@ namespace Kortlek
                 int val = int.Parse(Console.ReadLine());
                 switch (val) {
                     case 1:
-                        var p = new Program();
+                        var p = new Program();  // All här nedan kör i början av spelet för att spelarna ska ta två kort
                         int up = p.kortRND() + p.kortRND();
                         int cp = p.kortRND() + p.kortRND();
                         Console.WriteLine("Dina poäng är: " + up);
                         Console.WriteLine("Datorns poäng är: " + cp);
-                        if (up > 21)
+                        if (up > 21)  // De två nedanstående if kollar om de har förlorat
                         {
                             Console.WriteLine("Du förlorade");
+                            vinnare = false;
                             break;
                         }
                         else if (cp > 21)
                         {
                             Console.WriteLine("Du vann! :)");
+                            vinnare = true;
                             break;
                         }
                         Console.WriteLine("Vill du ta ett till kort? (y/n)");
                         string gval = Console.ReadLine().ToLower();
-                        if (gval == "y")
+                        if (gval == "y")  // Kör så länge spelaren vill fortsätta ta upp kort.
                         {
                             while (gval == "y")
                             {
@@ -66,30 +69,43 @@ namespace Kortlek
                                 {
                                     Console.WriteLine("Du förlorade");
                                     break;
+                                    vinnare = false;
                                 }
                                 else if (cp > 21)
                                 {
                                     Console.WriteLine("Du vann! :)");
+                                    vinnare = true;
                                     break;
                                 }
+                                Console.Write("Vill du fortsätta ? ");
                                 gval = Console.ReadLine().ToLower();
                             }
-                        }
+                        }  // Körs för att datorn ska ta upp kort till den har mer än spelaren.
                         else if (gval == "n")
                         {
-                            while(cp > up)
+                            while(cp < up)
                             {
                                 cp = cp + p.kortRND();
+                                Console.WriteLine(cp);
+                                if (cp > 22)
+                                {
+                                    Console.WriteLine("Du vann");
+                                    vinnare=true;
+                                    break;
+                                }
                             }
+                            
                         }
 
-                        if (up > cp && up < 22)
+                        if (up > cp && up < 22)    //Slutchecken för att kolla vem som vann
                         {
                             Console.WriteLine("Du vann med: " + up + " poäng! :)");
+                            vinnare = true;
                         }
                         else if (cp > up && cp < 22)
                         {
                             Console.WriteLine("Datorn vann med: " + cp + " poäng! :(");
+                            vinnare = false;
                         }
 
 
@@ -97,16 +113,23 @@ namespace Kortlek
 
                         break;
                     case 2:
-                        Console.WriteLine();
+                        if (vinnare == false)
+                        {
+                            Console.WriteLine("Datorn vann senast");
+                        }
+                        if (vinnare == true)
+                        {
+                            Console.WriteLine("Spelaren vann senast");
+                        }
                         break;
                     case 3:
-                        Console.WriteLine();
+                        Console.WriteLine("Målet med blackjack är att komma så när 21 som möjligt utan att passera det.");
                         break;
                     case 4:
                         gameon = false;
                         break;
                 }
-
+                Console.WriteLine("\n \n \n \n \n");
 
             }
             Console.WriteLine("Tack för att du har spelat spelet");
