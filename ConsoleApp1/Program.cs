@@ -1,9 +1,7 @@
-
 using System;
 
 namespace Kortlek
 {
-
     public class Program
     {
         public int kortRND()
@@ -22,6 +20,8 @@ namespace Kortlek
         }
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetWindowSize(50,50);
             Console.WriteLine("Kortlek v0");
             bool gameon = true;
             bool vinnare = false;
@@ -68,8 +68,9 @@ namespace Kortlek
                                 if (up > 21)
                                 {
                                     Console.WriteLine("Du förlorade");
-                                    break;
                                     vinnare = false;
+                                    break;
+
                                 }
                                 else if (cp > 21)
                                 {
@@ -107,10 +108,6 @@ namespace Kortlek
                             Console.WriteLine("Datorn vann med: " + cp + " poäng! :(");
                             vinnare = false;
                         }
-
-
-
-
                         break;
                     case 2:
                         if (vinnare == false)
@@ -133,7 +130,7 @@ namespace Kortlek
 
             }
             Console.WriteLine("Tack för att du har spelat spelet");
-
+            
 
         }
     }
