@@ -4,6 +4,20 @@ namespace Kortlek
 {
     public class Program
     {
+        public string WinChecker(int up, int cp)
+            {
+            if (up > 21)  // De två nedanstående if kollar om de har förlorat
+            {
+                Console.WriteLine("Du förlorade med " + cp + " poäng.");
+                return "c";
+            }
+            else if (cp > 21)
+            {
+                Console.WriteLine("Du vann med " + up + " poäng :)");
+                return "u";
+            }
+            return " ";
+            }
         public int kortRND()
         {            
             Random rnd = new Random();
@@ -21,7 +35,6 @@ namespace Kortlek
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetWindowSize(50,50);
             Console.WriteLine("Kortlek v0");
             bool gameon = true;
             bool vinnare = false;
@@ -41,18 +54,10 @@ namespace Kortlek
                         int cp = p.kortRND() + p.kortRND();
                         Console.WriteLine("Dina poäng är: " + up);
                         Console.WriteLine("Datorns poäng är: " + cp);
-                        if (up > 21)  // De två nedanstående if kollar om de har förlorat
-                        {
-                            Console.WriteLine("Du förlorade");
-                            vinnare = false;
-                            break;
-                        }
-                        else if (cp > 21)
-                        {
-                            Console.WriteLine("Du vann! :)");
-                            vinnare = true;
-                            break;
-                        }
+
+                        if (p.WinChecker(up,cp) == "u") { vinnare = true; break; }
+                        if (p.WinChecker(up,cp) == "c") { vinnare = false; break; }
+
                         Console.WriteLine("Vill du ta ett till kort? (y/n)");
                         string gval = Console.ReadLine().ToLower();
                         if (gval == "y")  // Kör så länge spelaren vill fortsätta ta upp kort.
@@ -65,19 +70,10 @@ namespace Kortlek
                                 cp = cp + p.kortRND();
                                 Console.WriteLine("Dina poäng är: " + up);
                                 Console.WriteLine("Datorns poäng är: " + cp);
-                                if (up > 21)
-                                {
-                                    Console.WriteLine("Du förlorade");
-                                    vinnare = false;
-                                    break;
 
-                                }
-                                else if (cp > 21)
-                                {
-                                    Console.WriteLine("Du vann! :)");
-                                    vinnare = true;
-                                    break;
-                                }
+                                if (p.WinChecker(up, cp) == "u") { vinnare = true; break; }
+                                if (p.WinChecker(up, cp) == "c") { vinnare = false; break; }
+
                                 Console.Write("Vill du fortsätta ? ");
                                 gval = Console.ReadLine().ToLower();
                             }
@@ -87,15 +83,13 @@ namespace Kortlek
                             while(cp < up)
                             {
                                 cp = cp + p.kortRND();
-                                Console.WriteLine(cp);
-                                if (cp > 22)
-                                {
-                                    Console.WriteLine("Du vann");
-                                    vinnare=true;
-                                    break;
-                                }
+                                if (p.WinChecker(up, cp) == "u") { vinnare = true; break; }
                             }
-                            
+                        }
+                        else
+                        { // om man skriver inn något dummt istället för y/n
+                            Console.WriteLine("y/n vad är det du inte fattar?");
+                            break;
                         }
 
                         if (up > cp && up < 22)    //Slutchecken för att kolla vem som vann
