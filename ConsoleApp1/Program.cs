@@ -1,41 +1,40 @@
 using System;
 
+// Blackjack V1 
+
 namespace Kortlek
 {
     public class Program
     {
         public string WinChecker(int up, int cp)
             {
-            if (up > 21)  // De två nedanstående if kollar om de har förlorat
-            {
-                Console.WriteLine("Du förlorade med " + cp + " poäng.");
-                return "c";
+                if (up > 21)  // De två nedanstående if kollar om de har förlorat
+                {
+                    Console.WriteLine("Du förlorade med " + cp + " poäng.");
+                    return "c";
+                }
+                else if (cp > 21)
+                {
+                    Console.WriteLine("Du vann med " + up + " poäng :)");
+                    return "u";
+                }
+                return " ";
             }
-            else if (cp > 21)
-            {
-                Console.WriteLine("Du vann med " + up + " poäng :)");
-                return "u";
-            }
-            return " ";
-            }
-        public int kortRND()
+        public int kortRND(int times)
         {            
             Random rnd = new Random();
-                int[][] kort = new int[][]
-                {
-                    new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, //Hjärter 
-                    new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, //Klöver
-                    new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, //spade
-                    new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, //Ruter
-                };
-            int kortindex = rnd.Next(0, 3);
-            int kortval = rnd.Next(0, 12);
-            return kort[kortindex][kortval];
+            int answear = 0;
+            for (int x = 0; x < times; x++)
+            {
+                answear += rnd.Next(1,14);
+            }
+
+            return answear;
         }
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Kortlek v0");
+            Console.WriteLine("Kortlek v1");
             bool gameon = true;
             bool vinnare = false;
             while (gameon == true)
@@ -50,8 +49,8 @@ namespace Kortlek
                 switch (val) {
                     case 1:
                         var p = new Program();  // All här nedan kör i början av spelet för att spelarna ska ta två kort
-                        int up = p.kortRND() + p.kortRND();
-                        int cp = p.kortRND() + p.kortRND();
+                        int up = p.kortRND(2);
+                        int cp = p.kortRND(2);
                         Console.WriteLine("Dina poäng är: " + up);
                         Console.WriteLine("Datorns poäng är: " + cp);
 
@@ -64,10 +63,10 @@ namespace Kortlek
                         {
                             while (gval == "y")
                             {
-                                int x = p.kortRND();
+                                int x = p.kortRND(1);
                                 Console.WriteLine("Ditt nya kort är: " + x);
                                 up = up + x;
-                                cp = cp + p.kortRND();
+                                cp = cp + p.kortRND(1);
                                 Console.WriteLine("Dina poäng är: " + up);
                                 Console.WriteLine("Datorns poäng är: " + cp);
 
@@ -82,7 +81,7 @@ namespace Kortlek
                         {
                             while(cp < up)
                             {
-                                cp = cp + p.kortRND();
+                                cp = cp + p.kortRND(1);
                                 if (p.WinChecker(up, cp) == "u") { vinnare = true; break; }
                             }
                         }
